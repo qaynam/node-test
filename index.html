@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ランダム画像</title>
+</head>
+<body>
+
+  <img src="" width="400" height="400" alt="ランダム画像">
+
+  <script>
+    async function getRandomImage() {
+      const res = await fetch('/random-image');
+      const body = await res.json();
+      const img = document.querySelector('img');
+      img.src = body[0].download_url;
+    }
+
+    window.onload = getRandomImage;
+  </script>
+</body>
+</html>
