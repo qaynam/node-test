@@ -1,5 +1,6 @@
 import { Router } from "express";
 import fs from "node:fs";
+import https from 'node:https'
 
 export const route = Router();
 
@@ -14,7 +15,13 @@ route.get("/", (req, res) => {
 })
 
 route.get("/random-image", async (req, res) => {
-  const body = await fetch('https://picsum.photos/v2/list?limit=1');
-  const data = await body.json();
-  res.send(data);
+  let body = '';
+  https.get('https://picsum.photos/v2/list?limit=1', (resp) => {
+    resp.on('data', (chunk) => {
+      body += chunk;
+    })
+    resp.on('end', () => {
+      res.send(body);
+    });
+  });
 });
